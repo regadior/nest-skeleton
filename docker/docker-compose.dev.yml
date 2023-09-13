@@ -1,0 +1,40 @@
+# docker-compose.yml
+version: '3'
+services:
+  talent-plexus-back:
+    build:
+      context: ..
+      args:
+        - PORT=${PORT}
+      dockerfile: ./docker/Dockerfile
+      target: dev
+    image: ${IMAGE_NAME}:dev
+    container_name: ${IMAGE_NAME}
+    hostname: localhost
+    restart: always
+    depends_on:
+      - talent-plexus-back-db
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${DB_NAME}
+      NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
+    ports:
+      - '3000:3000'
+    command: npm run start
+    volumes:
+      - ..:/code/app/
+      - ../package.json:/code/package.json
+      - ../package-lock.json:/code/package-lock.json
+
+  talent-plexus-back-db:
+    image: postgres:15
+    container_name: talent-plexus-back-db
+    hostname: talent-plexus-back-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - ${DB_VOLUME}:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:5432
