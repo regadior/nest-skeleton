@@ -16,3 +16,4 @@ npx lint-staged ||
 
 echo '🥳✅ Formating and checking process has been successfully completed!'
 npx lint-staged
+npx lint-staged
