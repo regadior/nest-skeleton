@@ -1,7 +1,7 @@
 # docker-compose.yml
 version: '3'
 services:
-  talent-plexus-back:
+  nestjs-skeleton-back:
     build:
       context: ..
       args:
@@ -13,7 +13,7 @@ services:
     hostname: localhost
     restart: always
     depends_on:
-      - talent-plexus-back-db
+      - nestjs-skeleton-back-db
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${DB_NAME}
       NODE_ENV: ${NODE_ENV}
@@ -26,12 +26,12 @@ services:
       - ../package.json:/code/package.json
       - ../package-lock.json:/code/package-lock.json
 
-  talent-plexus-back-db:
-    image: postgres:15
-    container_name: talent-plexus-back-db
-    hostname: talent-plexus-back-db
+  nestjs-skeleton-back-db:
+    image: postgres:16
+    container_name: nestjs-skeleton-back-db
+    hostname: nestjs-skeleton-back-db
     environment:
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
