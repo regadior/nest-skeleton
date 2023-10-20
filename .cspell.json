@@ -12,8 +12,7 @@
     "@cspell/dict-companies",
     "@cspell/dict-filetypes",
     "@cspell/dict-bash",
-    "@cspell/dict-lorem-ipsum/cspell-ext.json",
-    "@cspell/dict-es-es/cspell-ext.json"
+    "@cspell/dict-lorem-ipsum/cspell-ext.json"
   ],
   "allowCompoundWords": true,
   "flagWords": [],
@@ -34,7 +33,6 @@
     "**/public/**",
     "CHANGELOG.md",
     "**/changelog.mdx",
-    "**/*.prisma",
     "docker/",
     "Makefile",
     "logs/",
@@ -109,6 +107,9 @@
     "unopinionated",
     "untracked",
     "usecase",
-    "ldapjs"
+    "ldapjs",
+    "Myśliwiec",
+    "pino",
+    "typeorm"
   ]
 }

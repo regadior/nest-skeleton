@@ -42,33 +42,21 @@ TAG ?= prod
 install: requirements  ## Install project dependencies
 	@echo "🍿 Installing dependencies..."
 	@npm install
-	@npm run prisma:generate
-
 
 .PHONY: start
 start: install ## Start application in development mode
 	@echo "▶️ Starting app in development mode..."
-	@npm run dev
+	@npm run start:dev
 
 .PHONY: start/docker/db
-start/docker/db: ## Start database container
+start/docker/db: requirements ## Start database container
 	@echo "▶️ Starting database (Docker)..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env up -d express-typescript-skeleton-postgres express-typescript-skeleton-pgweb
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env up -d nestjs-skeleton-back-db
 
 .PHONY: stop/docker/db
 stop/docker/db: ## Stop database container
 	@echo "🛑 Stopping database (Docker)..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop express-typescript-skeleton-postgres express-typescript-skeleton-pgweb
-
-.PHONY: start/cache
-start/docker/cache: ## Start cache container
-	@echo "▶️ Starting cache (Docker)..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env up -d express-typescript-skeleton-redis express-typescript-skeleton-redis-commander
-
-.PHONY: stop/cache
-stop/docker/cache: ## Stop cache container
-	@echo "🛑 Stopping cache (Docker)..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop express-typescript-skeleton-redis express-typescript-skeleton-redis-commander
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop nestjs-skeleton-back-db
 
 .PHONY: start/docker
 start/docker: ## Start application in a Docker container
