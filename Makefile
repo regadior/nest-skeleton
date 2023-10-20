@@ -38,10 +38,6 @@ endif
 
 TAG ?= prod
 
-.PHONY: test
-test:  ## Test make
-	@echo "🧾 testing make $(DOCKER_COMPOSE_FILE) $(DOCKER_COMPOSE)"
-
 .PHONY: install
 install: requirements  ## Install project dependencies
 	@echo "🍿 Installing dependencies..."
@@ -50,7 +46,7 @@ install: requirements  ## Install project dependencies
 .PHONY: start
 start: install ## Start application in development mode
 	@echo "▶️ Starting app in development mode..."
-	@npm run dev
+	@npm run start:dev
 
 .PHONY: start/docker/db
 start/docker/db: requirements ## Start database container
