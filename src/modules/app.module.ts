@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { LoggerModule } from 'nestjs-pino';
 
+import { UserModule } from './user/user.module';
+
 dotenv.config();
 
 @Module({
@@ -26,8 +28,7 @@ dotenv.config();
         },
       },
     }),
+    UserModule,
   ],
-  // controllers: [HealthController],
-  // providers: [HealthCheckerUseCase],
 })
 export class AppModule {}
