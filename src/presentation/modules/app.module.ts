@@ -19,6 +19,7 @@ dotenv.config();
       database: process.env.DB_NAME,
       synchronize: true,
       autoLoadEntities: true,
+      logging: true,
     }),
     ConfigModule.forRoot(),
     LoggerModule.forRoot({

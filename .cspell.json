@@ -110,6 +110,7 @@
     "ldapjs",
     "Myśliwiec",
     "pino",
-    "typeorm"
+    "typeorm",
+    "finded"
   ]
 }
