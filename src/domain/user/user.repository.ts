@@ -1,4 +1,4 @@
-import { CreateUserBodyDto } from '../../application/user/dto/create-user-body.dto';
+import { CreateUserBodyDto } from '../../application/user/request/dto/create-user-body.dto';
 import { User } from './user';
 
 abstract class UserRepository {

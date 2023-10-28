@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateUserBodyDto } from '../../../application/user/dto/create-user-body.dto';
+import { CreateUserBodyDto } from '../../../application/user/request/dto/create-user-body.dto';
 import { User } from '../../../domain/user/user';
 import { UserRepository } from '../../../domain/user/user.repository';
 import { UserEntity } from '../../type-orm/entities/user.entity';
@@ -16,16 +16,15 @@ class TypeOrmUserRepository implements UserRepository {
 
   public async create(userData: CreateUserBodyDto): Promise<User> {
     const createduser = await this.typeOrmUser.save(userData);
-    console.log(createduser);
-    return createduser;
+    return User.fromEntity(createduser);
   }
 
   public async findById(userId: string): Promise<User | null> {
     const findedUser = await this.typeOrmUser.findOne({
       where: { id: userId },
     });
-    console.log(findedUser);
-    return findedUser;
+    if (findedUser) return null;
+    return User.fromEntity(findedUser);
   }
 
   public async update(user: any): Promise<any> {
