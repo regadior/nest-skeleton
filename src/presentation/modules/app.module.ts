@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { LoggerModule } from 'nestjs-pino';
 
+import { ExceptionHandlerModule } from './exception/exception-handler.module';
+import { UserModule } from './user/user.module';
+
 dotenv.config();
 
 @Module({
@@ -17,6 +20,7 @@ dotenv.config();
       database: process.env.DB_NAME,
       synchronize: true,
       autoLoadEntities: true,
+      logging: true,
     }),
     ConfigModule.forRoot(),
     LoggerModule.forRoot({
@@ -26,8 +30,8 @@ dotenv.config();
         },
       },
     }),
+    ExceptionHandlerModule,
+    UserModule,
   ],
-  // controllers: [HealthController],
-  // providers: [HealthCheckerUseCase],
 })
 export class AppModule {}

@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
-import { AppModule } from './modules/app.module';
+import { AppModule } from './presentation/modules/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +18,14 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development') {
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api/docs', app, document);
+    app.enableCors({
+      allowedHeaders: '*',
+      origin: '*',
+    });
+  } else {
+    app.enableCors({
+      origin: process.env.FRONTEND_URL,
+    });
   }
 
   //setup logger
