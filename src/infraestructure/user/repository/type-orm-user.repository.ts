@@ -16,7 +16,7 @@ class TypeOrmUserRepository implements UserRepository {
 
   public async create(userData: CreateUserBodyDto): Promise<User> {
     const createduser = await this.typeOrmUser.save(userData);
-    return User.fromEntity(createduser);
+    return User.toModel(createduser);
   }
 
   public async findById(userId: string): Promise<User | null> {
@@ -24,7 +24,7 @@ class TypeOrmUserRepository implements UserRepository {
       where: { id: userId },
     });
     if (findedUser) return null;
-    return User.fromEntity(findedUser);
+    return User.toModel(findedUser);
   }
 
   public async update(user: any): Promise<any> {

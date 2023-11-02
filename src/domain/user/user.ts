@@ -37,7 +37,7 @@ class User {
     this.password = password;
   }
 
-  static fromEntity(userEntity: UserEntity): User {
+  static toModel(userEntity: UserEntity): User {
     return new User(
       userEntity.id,
       userEntity.name,

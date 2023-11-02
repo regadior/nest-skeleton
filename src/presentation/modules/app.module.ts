@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { LoggerModule } from 'nestjs-pino';
 
+import { ExceptionHandlerModule } from './exception/exception-handler.module';
 import { UserModule } from './user/user.module';
 
 dotenv.config();
@@ -29,6 +30,7 @@ dotenv.config();
         },
       },
     }),
+    ExceptionHandlerModule,
     UserModule,
   ],
 })
