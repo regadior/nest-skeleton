@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateUserBodyDto } from '../../../application/user/request/dto/create-user-body.dto';
+import { UpdateUserBodyDto } from '../../../application/user/request/dto/update-user-body.dto';
 import { User } from '../../../domain/user/user';
 import { UserRepository } from '../../../domain/user/user.repository';
 import { UserEntity } from '../../type-orm/entities/user.entity';
@@ -15,12 +16,22 @@ class TypeOrmUserRepository implements UserRepository {
   ) {}
 
   public async create(userData: CreateUserBodyDto): Promise<User> {
-    const createduser = await this.typeOrmUser.save(userData);
-    return User.toModel(createduser);
+    const createdUser = await this.typeOrmUser.save(userData);
+    return User.toModel(createdUser);
   }
 
-  public async update(user: any): Promise<any> {
-    console.log(user);
+  public async update(
+    userId: string,
+    userData: UpdateUserBodyDto,
+  ): Promise<void> {
+    const updatedUser = await this.typeOrmUser.save({
+      id: userId,
+      userData,
+    });
+
+    // const updatedUser = await this.typeOrmUser.update(userId, userData);
+    console.log(updatedUser);
+    // return User.toModel(updatedUser);
   }
 
   public async delete(userId: string): Promise<void> {

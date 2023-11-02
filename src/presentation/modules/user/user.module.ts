@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CreateUserUseCase } from '../../../application/user/create-user.usecase';
 import { DeleteUserByIdUseCase } from '../../../application/user/delete-user-by-id.usecase';
+import { UpdateUserByIdUseCase } from '../../../application/user/update-user-by-id.usecase';
 import { UserRepository } from '../../../domain/user/user.repository';
 import { UserEntity } from '../../../infraestructure/type-orm/entities/user.entity';
 import { TypeOrmUserRepository } from '../../../infraestructure/user/repository/type-orm-user.repository';
@@ -27,6 +28,12 @@ import { UserController } from '../../controllers/user/user.controller';
       provide: DeleteUserByIdUseCase,
       useFactory: (userRepository: UserRepository) =>
         new DeleteUserByIdUseCase(userRepository),
+      inject: [UserRepository],
+    },
+    {
+      provide: UpdateUserByIdUseCase,
+      useFactory: (userRepository: UserRepository) =>
+        new UpdateUserByIdUseCase(userRepository),
       inject: [UserRepository],
     },
   ],
