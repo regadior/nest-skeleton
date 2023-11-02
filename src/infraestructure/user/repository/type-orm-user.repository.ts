@@ -19,6 +19,14 @@ class TypeOrmUserRepository implements UserRepository {
     return User.toModel(createduser);
   }
 
+  public async update(user: any): Promise<any> {
+    console.log(user);
+  }
+
+  public async delete(userId: string): Promise<void> {
+    await this.typeOrmUser.delete(userId);
+  }
+
   public async findById(userId: string): Promise<User | null> {
     const findedUser = await this.typeOrmUser.findOne({
       where: { id: userId },
@@ -27,12 +35,8 @@ class TypeOrmUserRepository implements UserRepository {
     return User.toModel(findedUser);
   }
 
-  public async update(user: any): Promise<any> {
-    console.log(user);
-  }
-
-  public async delete(user: any): Promise<any> {
-    console.log(user);
+  public async findAll(userId: string): Promise<any | null> {
+    console.log(userId);
   }
 }
 

@@ -12,9 +12,9 @@ export class UserResponse {
   readonly message: string;
 
   @ApiProperty()
-  readonly data: User;
+  readonly data?: User;
 
-  constructor(status: string, message: string, data: User) {
+  constructor(status: string, message: string, data?: User) {
     this.status = status;
     this.message = message;
     this.data = data;
