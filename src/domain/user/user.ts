@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { UserEntity } from '../../infraestructure/type-orm/entities/user.entity';
-
 class User {
   @ApiProperty()
   id: string;
@@ -35,17 +33,6 @@ class User {
     this.username = username;
     this.email = email;
     this.password = password;
-  }
-
-  static toModel(userEntity: UserEntity): User {
-    return new User(
-      userEntity.id,
-      userEntity.name,
-      userEntity.lastName,
-      userEntity.username,
-      userEntity.email,
-      userEntity.password,
-    );
   }
 }
 
