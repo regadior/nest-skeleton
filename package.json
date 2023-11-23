@@ -99,6 +99,10 @@
       "tsconfig-paths": "^4.2.0",
       "typescript": "^5.2.2"
    },
+   "prisma": {
+      "schema": "src/infrastructure/common/persistence/prisma/schema.prisma",
+      "seed": "ts-node src/infrastructure/common/persistence/prisma/seed.ts"
+    },
    "lint-staged": {
       "*.js": "eslint --cache --fix"
    },
