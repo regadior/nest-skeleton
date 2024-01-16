@@ -17,16 +17,10 @@ class User {
   email: string;
 
   @ApiProperty()
-  password: string;
+  password?: string;
 
-  constructor(
-    id: string,
-    name: string,
-    lastName: string,
-    username: string,
-    email: string,
-    password: string,
-  ) {
+  constructor(inputData: UserInputData) {
+    const { id, name, lastName, username, email, password } = inputData;
     this.id = id;
     this.name = name;
     this.lastName = lastName;
@@ -34,6 +28,21 @@ class User {
     this.email = email;
     this.password = password;
   }
+
+  static fromInputData(inputData: UserInputData): User {
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    const { password, ...inputWithoutPassword } = inputData;
+    return new User(inputWithoutPassword);
+  }
+}
+
+interface UserInputData {
+  id: string;
+  name: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password?: string;
 }
 
 export { User };
