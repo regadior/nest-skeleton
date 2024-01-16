@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { GetUserByIdUseCase } from '@application/user/get-user-by-id.usecase';
+import { HasherService } from '@domain/shared/services/hasher.service';
 import { PrismaModule } from '@infrastructure/common/persistence/prisma/prisma.module';
 import { PrismaService } from '@infrastructure/common/persistence/prisma/prisma.service';
 import { PrismaUserRepository } from '@infrastructure/user/repository/prisma-user.repository';
@@ -15,6 +16,7 @@ import { UserController } from '../controllers/user/user.controller';
   imports: [PrismaModule],
   controllers: [UserController],
   providers: [
+    HasherService,
     {
       provide: UserRepository,
       useFactory: (prisma: PrismaService) => new PrismaUserRepository(prisma),
@@ -22,9 +24,11 @@ import { UserController } from '../controllers/user/user.controller';
     },
     {
       provide: CreateUserUseCase,
-      useFactory: (userRepository: UserRepository) =>
-        new CreateUserUseCase(userRepository),
-      inject: [UserRepository],
+      useFactory: (
+        userRepository: UserRepository,
+        hasherService: HasherService,
+      ) => new CreateUserUseCase(userRepository, hasherService),
+      inject: [UserRepository, HasherService],
     },
     {
       provide: GetUserByIdUseCase,

@@ -72,7 +72,7 @@ export class UserController {
   @Delete('/:userId')
   @ApiOperation({ summary: 'Delete user' })
   @ApiResponse({
-    status: 204,
+    status: 200,
     description: 'User deleted successfully',
     type: UserResponse,
   })

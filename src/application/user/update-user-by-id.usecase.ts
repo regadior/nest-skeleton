@@ -11,12 +11,11 @@ export class UpdateUserByIdUseCase {
     userId: string,
     userData: UpdateUserBodyDto,
   ): Promise<UserResponse> {
-    // const updatedUser =
-    await this.userRepository.update(userId, userData);
+    const user = await this.userRepository.update(userId, userData);
     return new UserResponse(
       HttpStatus.OK.toString(),
       'Successfully updated user',
-      // updatedUser,
+      user,
     );
   }
 }

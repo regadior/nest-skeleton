@@ -38,6 +38,7 @@
       "@nestjs/typeorm": "^10.0.0",
       "@prisma/client": "^5.6.0",
       "@types/express": "^4.17.17",
+      "bcrypt": "^5.1.1",
       "class-transformer": "^0.5.1",
       "class-validator": "^0.14.0",
       "cz": "^1.8.2",
@@ -64,6 +65,7 @@
       "@nestjs/cli": "^10.0.0",
       "@nestjs/schematics": "^10.0.0",
       "@nestjs/testing": "^10.0.0",
+      "@types/bcrypt": "^5.0.2",
       "@types/jest": "^29.5.2",
       "@types/node": "^16.11.10",
       "@types/supertest": "^2.0.12",
@@ -102,7 +104,7 @@
    "prisma": {
       "schema": "src/infrastructure/common/persistence/prisma/schema.prisma",
       "seed": "ts-node src/infrastructure/common/persistence/prisma/seed.ts"
-    },
+   },
    "lint-staged": {
       "*.js": "eslint --cache --fix"
    },
