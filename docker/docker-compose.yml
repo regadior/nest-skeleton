@@ -15,7 +15,7 @@ services:
     depends_on:
       - nestjs-skeleton-back-db
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${DB_NAME}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_NAME}
       NODE_ENV: ${NODE_ENV}
       PORT: ${PORT}
     ports:
@@ -31,10 +31,10 @@ services:
     container_name: nestjs-skeleton-back-db
     hostname: nestjs-skeleton-back-db
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_NAME}
     volumes:
       - ${DB_VOLUME}:/var/lib/postgresql/data
     ports:
-      - ${DB_PORT}:5432
+      - ${POSTGRES_PORT}:5432

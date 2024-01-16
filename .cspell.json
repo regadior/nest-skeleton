@@ -109,8 +109,6 @@
     "usecase",
     "ldapjs",
     "Myśliwiec",
-    "pino",
-    "typeorm",
-    "finded"
+    "pino"
   ]
 }

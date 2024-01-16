@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { User } from '../../../domain/user/user';
-
 @Injectable()
 export class UserResponse {
   @ApiProperty()
@@ -12,9 +10,9 @@ export class UserResponse {
   readonly message: string;
 
   @ApiProperty()
-  readonly data?: User;
+  readonly data?: any;
 
-  constructor(status: string, message: string, data?: User) {
+  constructor(status: string, message: string, data?: any) {
     this.status = status;
     this.message = message;
     this.data = data;
