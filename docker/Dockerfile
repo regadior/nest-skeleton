@@ -1,35 +1,64 @@
-FROM node:18-slim as node
+ARG NODE_VERSION=20
+
+FROM node:${NODE_VERSION}-buster-slim as base
+
+ARG WAIT_VERSION=2.12.1
+
+RUN <<EOF
+set -ex
+apt-get update
+apt-get upgrade -y
+apt-get install -y openssl
+apt-get autoremove -y
+apt-get clean -y
+rm -rf /var/lib/apt/lists/*
+npm install -g pm2
+npm cache clean --force
+EOF
+
+ENV NODE_ENV=production \
+  FORCE_COLOR=1
+
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/${WAIT_VERSION}/wait /wait
+RUN chmod +x /wait
+
+WORKDIR /app
+
+
+FROM base as builder
+
+COPY --link package*.json ./
+
+RUN <<EOF
+npm ci --omit=optional
+npm cache clean --force
+EOF
+
+COPY --link . .
+
+RUN <<EOF
+npm run prisma:generate
+npm run build
+npm prune --production
+EOF
+
+
+FROM base as runtime
 
 ARG PORT=3000
 ENV PORT $PORT
 EXPOSE $PORT
+VOLUME ["/app/logs"]
 
-RUN apt-get update
-RUN apt-get install -y openssl
+RUN mkdir logs
 
-RUN npm i npm@latest -g
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/dist /app
 
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
-RUN chmod +x /wait
+COPY --link <<EOF process.json
+{ "apps": [{ "exec_mode": "cluster", "instances": "max", "name": "express-typescript-skeleton", "script": "./index.js" }] }
+EOF
 
-# Builder stage
-FROM node AS builder
+HEALTHCHECK --interval=30s --timeout=60s --start-period=10s --retries=3 CMD node ./healthcheck.js
 
-WORKDIR /code
-COPY package*.json ./
-COPY ./src/infrastructure/common/persistence/prisma/schema.prisma ./prisma/schema.prisma
-
-RUN npm install --omit=optional --ignore-scripts && npm cache clean --force
-RUN npx -y prisma generate --schema ./prisma/schema.prisma
-
-ENV PATH /code/node_modules/.bin:$PATH
-WORKDIR /code/app
-COPY . ./
-RUN npm run build
-
-# Dev stage
-FROM builder as dev
-ENV NODE_ENV=development
-ENV FORCE_COLOR=1
-CMD /wait && npm run start:dev
-
+CMD /wait && pm2-runtime ./process.json

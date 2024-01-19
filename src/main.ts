@@ -9,8 +9,8 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
   const options = new DocumentBuilder()
-    .setTitle('Nest Skeleton')
-    .setDescription('Nest Skeleton App ')
+    .setTitle(process.env.VERSION as string)
+    .setDescription('Nest Skeleton App')
     .setVersion((process.env.VERSION as string) || '1.0')
     .addBearerAuth()
     .build();
@@ -27,8 +27,6 @@ async function bootstrap() {
       origin: process.env.FRONTEND_URL,
     });
   }
-
-  //setup logger
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new LoggerErrorInterceptor());
 
