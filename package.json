@@ -27,7 +27,8 @@
       "check:lint": "eslint . --ext .js,.ts --color",
       "check:spelling": "cspell \"{README.md,TODO.md,.github/*.md,src/**/*.ts}\"",
       "prepare": "husky install",
-      "typeorm": "typeorm-ts-node-commonjs"
+      "typeorm": "typeorm-ts-node-commonjs",
+      "commit": "cz"
    },
    "dependencies": {
       "@nestjs/common": "^10.0.0",

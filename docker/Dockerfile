@@ -1,35 +1,38 @@
-FROM node:18-slim as node
+# syntax=docker/dockerfile:1.6-labs
+ARG NODE_VERSION=20
 
-ARG PORT=3000
-ENV PORT $PORT
-EXPOSE $PORT
+FROM node:${NODE_VERSION}-buster-slim as base
 
-RUN apt-get update
-RUN apt-get install -y openssl
+ARG WAIT_VERSION=2.12.1
 
-RUN npm i npm@latest -g
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y openssl && \
+    apt-get autoremove -y && \
+    apt-get clean -y && \
+    rm -rf /var/lib/apt/lists/* && \
+    npm install -g pm2 && \
+    npm cache clean --force
 
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/${WAIT_VERSION}/wait /wait
 RUN chmod +x /wait
 
-# Builder stage
-FROM node AS builder
+WORKDIR /app
 
-WORKDIR /code
+FROM base as builder
+
 COPY package*.json ./
-COPY ./src/infrastructure/common/persistence/prisma/schema.prisma ./prisma/schema.prisma
 
-RUN npm install --omit=optional --ignore-scripts && npm cache clean --force
-RUN npx -y prisma generate --schema ./prisma/schema.prisma
+RUN npm ci --omit=optional && \
+    npm cache clean --force
 
-ENV PATH /code/node_modules/.bin:$PATH
-WORKDIR /code/app
-COPY . ./
-RUN npm run build
+COPY . .
 
-# Dev stage
-FROM builder as dev
-ENV NODE_ENV=development
-ENV FORCE_COLOR=1
+RUN npm run prisma:generate && \
+    npm run build && \
+    npm prune --production
+
+FROM base as dev
+EXPOSE 3000
+
 CMD /wait && npm run start:dev
-
