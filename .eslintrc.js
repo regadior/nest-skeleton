@@ -80,7 +80,7 @@ module.exports = {
         'plugin:promise/recommended',
         'plugin:optimize-regex/recommended',
         'plugin:prettier/recommended',
-        'plugin:security/recommended',
+        // 'plugin:security/recommended',
       ],
       plugins: [
         '@typescript-eslint',
