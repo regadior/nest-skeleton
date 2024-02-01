@@ -53,7 +53,7 @@ start/dev: ## Start application in development mode
 .PHONY: start/prod
 start/prod: ## Start application in production mode
 	@echo "▶️ Starting app in production mode (Docker)..."
-	@docker-compose -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env up --build
+	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env up --build
 
 .PHONY: start/docker/db
 start/docker/db: requirements ## Start database container
@@ -65,28 +65,7 @@ stop/docker/db: ## Stop database container
 	@echo "🛑 Stopping database (Docker)..."
 	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop nestjs-skeleton-back-db
 
-.PHONY: start/docker
-start/docker: ## Start application in a Docker container
-	@echo "▶️ Starting app in production mode (Docker)..."
-	@mkdir -p -m 755 ${LOGS_VOLUME}
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env up -d --build
-
-.PHONY: stop/docker
-stop/docker: ## Stop application running in a Docker container
-	@echo "🛑 Stopping app..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env down
-
-.PHONY: clean/docker
-clean/docker: ## Clean all container resources
-	@echo "🧼 Cleaning all resources..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env down --rmi local --volumes --remove-orphans
-
-.PHONY: build/docker
-build/docker:  ## Build Docker image of the application
-	@echo "📦 Building project Docker image..."
-	@docker build --build-arg PORT=$(PORT) -t $(APP_NAME):$(TAG) -f ./docker/Dockerfile .
-
-.PHONY: logs
-logs: ## Show logs for all or c=<name> containers
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env logs --tail=100 -f $(c)
+.PHONY: logs/dev
+logs/dev: 
+	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env logs --tail=100 -f $(c)
 
