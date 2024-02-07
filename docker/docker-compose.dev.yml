@@ -1,36 +1,32 @@
+# docker-compose.yml
 version: '3.7'
 services:
-  nestjs-skeleton-backend-dev:
+  nest-skeleton:
     build:
       context: ..
-      args:
-        - PORT=${PORT}
       dockerfile: ./docker/Dockerfile
       target: dev
     image: ${IMAGE_NAME}:dev
     container_name: ${IMAGE_NAME}
-    hostname: localhost
     restart: always
     depends_on:
-      - nestjs-skeleton-backend-dev-db
-    environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_NAME}
-      NODE_ENV: ${NODE_ENV}
-      PORT: ${PORT}
+      - nest-skeleton-postgres
+    # environment:
     ports:
       - '3000:3000'
     volumes:
       - ..:/code/app/
       - ../package.json:/code/package.json
       - ../package-lock.json:/code/package-lock.json
+      - ../data:/code/data
 
-  nestjs-skeleton-backend-dev-db:
+  nest-skeleton-postgres:
     image: postgres:16
-    container_name: nestjs-skeleton-backend-dev-db
-    hostname: nestjs-skeleton-backend-dev-db
+    container_name: ${IMAGE_NAME_DB}
+    restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - ${POSTGRES_PORT}:5432
+      - 5432:5432
