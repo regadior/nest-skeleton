@@ -93,7 +93,7 @@
   },
   "prisma": {
     "schema": "src/infrastructure/common/persistence/prisma/schema.prisma",
-    "seed": "ts-node src/infrastructure/common/persistence/prisma/seed.ts"
+    "seed": "tsx src/infrastructure/common/persistence/prisma/seed.ts"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
