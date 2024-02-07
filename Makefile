@@ -45,6 +45,11 @@ install: requirements  ## Install project dependencies
 	@echo "🍿 Installing dependencies..."
 	@npm install
 
+.PHONY: start
+install: requirements  ## Install project dependencies
+	@echo "▶️ Starting app in development mode..."
+	@npm run start:dev
+
 .PHONY: start/dev
 start/dev: ## Start application in development mode
 	@echo "▶️ Starting app in development mode (Docker)..."
@@ -58,12 +63,12 @@ start/prod: ## Start application in production mode
 .PHONY: start/docker/db
 start/docker/db: requirements ## Start database container
 	@echo "▶️ Starting database (Docker)..."
-	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env up -d nestjs-skeleton-back-db
+	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env up -d nestjs-skeleton-postgres
 
 .PHONY: stop/docker/db
 stop/docker/db: ## Stop database container
 	@echo "🛑 Stopping database (Docker)..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop nestjs-skeleton-back-db
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop nestjs-skeleton-postgres
 
 .PHONY: logs/dev
 logs/dev: 
