@@ -11,14 +11,14 @@ services:
     restart: always
     depends_on:
       - nest-skeleton-postgres
-    # environment:
+    environment:
+      - DATABASE_URL=${DB_TYPE}://${DB_USER}:${DB_PASSWORD}@${IMAGE_NAME_DB}:${DB_PORT}/${DB_NAME}?connect_timeout=300
     ports:
       - '3000:3000'
     volumes:
       - ..:/code/app/
       - ../package.json:/code/package.json
       - ../package-lock.json:/code/package-lock.json
-      - ../data:/code/data
 
   nest-skeleton-postgres:
     image: postgres:16
