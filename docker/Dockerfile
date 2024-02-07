@@ -22,7 +22,6 @@ RUN chmod +x /wait
 FROM base as builder
 WORKDIR /code
 COPY package*.json ./
-# RUN npm install --omit=optional --ignore-scripts && npm cache clean --force
 COPY ./src/infrastructure/common/persistence/prisma/schema.prisma ./prisma/schema.prisma
 RUN npx -y prisma generate --schema ./prisma/schema.prisma
 WORKDIR /code/app
@@ -31,4 +30,4 @@ COPY . ./
 FROM builder as dev
 ENV NODE_ENV=development
 ENV FORCE_COLOR=1
-CMD /wait && npm i && npm run start:dev
+CMD npm i && /wait && npm run start:dev
