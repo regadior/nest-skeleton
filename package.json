@@ -27,9 +27,7 @@
     "check:lint": "eslint . --ext .js,.ts --color",
     "check:spelling": "cspell \"{README.md,TODO.md,.github/*.md,src/**/*.ts}\"",
     "prepare": "husky install",
-    "commit": "cz",
-    "pisma:db:push": "docker exec nest-skeleton npx prisma db push",
-    "pisma:migrate:reset": "docker exec nest-skeleton npx prisma migrate reset"
+    "commit": "cz"
     },
   "dependencies": {
     "@nestjs/common": "^10.3.2",

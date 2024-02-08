@@ -20,12 +20,14 @@ RUN chmod +x /wait
 
 # Builder stage
 FROM base as builder
+
 WORKDIR /code
 COPY package*.json ./
 COPY ./src/infrastructure/common/persistence/prisma/schema.prisma ./prisma/schema.prisma
 RUN npx -y prisma generate --schema ./prisma/schema.prisma
 WORKDIR /code/app
 COPY . ./
+RUN npm run build
 # Dev stage
 FROM builder as dev
 ENV NODE_ENV=development
