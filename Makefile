@@ -13,7 +13,6 @@ SHELL := $(shell which bash)
 ## Test if the dependencies we need to run this Makefile are installed
 DOCKER := DOCKER_BUILDKIT=1 $(shell command -v docker)
 DOCKER_COMPOSE := COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 $(shell command -v docker-compose)
-DOCKER_COMPOSE_FILE := $(ROOT_DIR)/docker/docker-compose.yml
 NPM := $(shell command -v npm)
 
 .PHONY: help
@@ -36,7 +35,10 @@ ifndef NPM
 endif
 	@echo "🆗 The necessary dependencies are already installed!"
 
-TAG ?= prod
+## Target specific variables
+%/dev: ENVIRONMENT = dev
+%/prod: ENVIRONMENT = prod
+build/%: TAG ?= $(ENVIRONMENT)
 
 .PHONY: install
 install: requirements  ## Install project dependencies
@@ -44,42 +46,31 @@ install: requirements  ## Install project dependencies
 	@npm install
 
 .PHONY: start
-start: install ## Start application in development mode
+install: requirements  ## Install project dependencies
 	@echo "▶️ Starting app in development mode..."
 	@npm run start:dev
+
+.PHONY: start/dev
+start/dev: ## Start application in development mode
+	@echo "▶️ Starting app in development mode (Docker)..."
+	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env up --build
+
+.PHONY: start/prod
+start/prod: ## Start application in production mode
+	@echo "▶️ Starting app in production mode (Docker)..."
+	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env up --build
 
 .PHONY: start/docker/db
 start/docker/db: requirements ## Start database container
 	@echo "▶️ Starting database (Docker)..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env up -d nestjs-skeleton-back-db
+	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env up -d nestjs-skeleton-postgres
 
 .PHONY: stop/docker/db
 stop/docker/db: ## Stop database container
 	@echo "🛑 Stopping database (Docker)..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop nestjs-skeleton-back-db
+	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env stop nestjs-skeleton-postgres
 
-.PHONY: start/docker
-start/docker: ## Start application in a Docker container
-	@echo "▶️ Starting app in production mode (Docker)..."
-	@mkdir -p -m 755 ${LOGS_VOLUME}
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env up -d --build
-
-.PHONY: stop/docker
-stop/docker: ## Stop application running in a Docker container
-	@echo "🛑 Stopping app..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env down
-
-.PHONY: clean/docker
-clean/docker: ## Clean all container resources
-	@echo "🧼 Cleaning all resources..."
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env down --rmi local --volumes --remove-orphans
-
-.PHONY: build/docker
-build/docker:  ## Build Docker image of the application
-	@echo "📦 Building project Docker image..."
-	@docker build --build-arg PORT=$(PORT) -t $(APP_NAME):$(TAG) -f ./docker/Dockerfile .
-
-.PHONY: logs
-logs: ## Show logs for all or c=<name> containers
-	@$(DOCKER_COMPOSE) -f $(DOCKER_COMPOSE_FILE) --env-file .env logs --tail=100 -f $(c)
+.PHONY: logs/dev
+logs/dev: 
+	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.$(ENVIRONMENT).yml --env-file .env logs --tail=100 -f $(c)
 
