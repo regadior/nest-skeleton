@@ -4,8 +4,8 @@ services:
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
-      target: dev
-    image: ${IMAGE_NAME}:dev
+      target: prod
+    image: ${IMAGE_NAME}:prod
     container_name: ${IMAGE_NAME}
     restart: always
     depends_on:
