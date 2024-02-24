@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 
 import { UserRepository } from '../../domain/user/user.repository';
-import { UpdateUserBodyDto } from './request/dto/update-user-body.dto';
+import { UpdateUserBodyDto } from './dto/update-user-body.dto';
 import { UserResponse } from './response/user.response';
 
 export class UpdateUserByIdUseCase {
@@ -11,12 +11,11 @@ export class UpdateUserByIdUseCase {
     userId: string,
     userData: UpdateUserBodyDto,
   ): Promise<UserResponse> {
-    // const updatedUser =
-    await this.userRepository.update(userId, userData);
+    const user = await this.userRepository.update(userId, userData);
     return new UserResponse(
       HttpStatus.OK.toString(),
-      'Successfully updated user',
-      // updatedUser,
+      'User successfully updated',
+      user,
     );
   }
 }

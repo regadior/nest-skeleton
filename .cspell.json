@@ -36,7 +36,8 @@
     "docker/",
     "Makefile",
     "logs/",
-    "coverage/"
+    "coverage/",
+    "README.md"
   ],
   "dictionaries": [
     "typescript",
