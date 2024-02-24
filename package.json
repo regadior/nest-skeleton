@@ -5,10 +5,6 @@
   "author": "",
   "private": false,
   "license": "UNLICENSED",
-  "engines": {
-    "node": ">=20.6.0",
-    "npm": ">=10.4.0"
-  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -49,6 +45,7 @@
     "pretty-quick": "^4.0.0",
     "reflect-metadata": "^0.2.1",
     "rxjs": "^7.8.1",
+    "semantic-release": "^23.0.2",
     "socket.io": "^4.7.4",
     "swagger": "^0.7.5"
   },
@@ -103,5 +100,9 @@
     "commitizen": {
       "path": "git-cz"
     }
+  },
+  "release": {
+    "branches": ["main"]
   }
+
 }
