@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 
+import { FindAllUsersUseCase } from '@application/user/find-all-users.usecase';
 import { GetUserByIdUseCase } from '@application/user/get-user-by-id.usecase';
 import { PrismaModule } from '@infrastructure/common/persistence/prisma/prisma.module';
 import { PrismaService } from '@infrastructure/common/persistence/prisma/prisma.service';
@@ -30,6 +31,12 @@ import { UserController } from '../controllers/user/user.controller';
       provide: GetUserByIdUseCase,
       useFactory: (userRepository: UserRepository) =>
         new GetUserByIdUseCase(userRepository),
+      inject: [UserRepository],
+    },
+    {
+      provide: FindAllUsersUseCase,
+      useFactory: (userRepository: UserRepository) =>
+        new FindAllUsersUseCase(userRepository),
       inject: [UserRepository],
     },
     {

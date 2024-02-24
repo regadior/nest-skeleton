@@ -42,18 +42,6 @@ npm run build
 npm prune --production
 EOF
 
-FROM base as dev
-ENV NODE_ENV=development\
-  FORCE_COLOR=1
-ARG PORT=3000
-ENV PORT $PORT
-EXPOSE $PORT
-COPY --from=builder /app/node_modules /app/node_modules
-COPY --from=builder /app/dist /app
-COPY --from=builder /app/tsconfig.json /app/package*.json ./
-CMD /wait && npm run start:dev
-
-
 FROM base as prod
 ENV NODE_ENV=production
 ARG PORT=3000

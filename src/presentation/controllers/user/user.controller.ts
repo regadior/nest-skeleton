@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  Query,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,27 +15,31 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateUserUseCase } from '@application/user/create-user.usecase';
 import { DeleteUserByIdUseCase } from '@application/user/delete-user-by-id.usecase';
+import { CreateUserBodyDto } from '@application/user/dto/create-user-body.dto';
+import { UpdateUserBodyDto } from '@application/user/dto/update-user-body.dto';
+import { FindAllUsersUseCase } from '@application/user/find-all-users.usecase';
 import { GetUserByIdUseCase } from '@application/user/get-user-by-id.usecase';
-import { CreateUserBodyDto } from '@application/user/request/dto/create-user-body.dto';
-import { UpdateUserBodyDto } from '@application/user/request/dto/update-user-body.dto';
 import { UserResponse } from '@application/user/response/user.response';
 import { UpdateUserByIdUseCase } from '@application/user/update-user-by-id.usecase';
 
+import { GetAllUsersQuery } from '../../../application/user/query/get-all-users.query';
+
 @Controller('/users')
-@ApiTags('users')
+@ApiTags('Users')
 export class UserController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly deleteUserByIdUseCase: DeleteUserByIdUseCase,
     private readonly updateUserByIdUseCase: UpdateUserByIdUseCase,
     private readonly getUserByIdUseCase: GetUserByIdUseCase,
+    private readonly findAllUsersUseCase: FindAllUsersUseCase,
   ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({
     status: 201,
-    description: 'Created user',
+    description: 'User created successfully',
     type: UserResponse,
   })
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -42,11 +47,23 @@ export class UserController {
     return this.createUserUseCase.execute(data);
   }
 
+  @Get('?')
+  @ApiOperation({ summary: 'Return users that matches input query' })
+  @ApiResponse({
+    status: 200,
+    description: 'Users list',
+    type: UserResponse,
+  })
+  @UsePipes(new ValidationPipe({ transform: true }))
+  getCandidates(@Query() query: GetAllUsersQuery) {
+    return this.findAllUsersUseCase.execute(query);
+  }
+
   @Get('/:userId')
   @ApiOperation({ summary: 'Get user by Id' })
   @ApiResponse({
     status: 200,
-    description: 'User got successfully',
+    description: 'User successfully obtained',
     type: UserResponse,
   })
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -58,7 +75,7 @@ export class UserController {
   @ApiOperation({ summary: 'Update user' })
   @ApiResponse({
     status: 200,
-    description: 'User updated successfully',
+    description: 'User successfully updated',
     type: UserResponse,
   })
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -72,8 +89,8 @@ export class UserController {
   @Delete('/:userId')
   @ApiOperation({ summary: 'Delete user' })
   @ApiResponse({
-    status: 204,
-    description: 'User deleted successfully',
+    status: 200,
+    description: 'User deleted ',
     type: UserResponse,
   })
   @UsePipes(new ValidationPipe({ transform: true }))

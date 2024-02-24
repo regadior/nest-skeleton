@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 
+import { PaginationOutput } from '@domain/common/pagination-output';
 import { User } from '@domain/user/user';
 
 @Injectable()
-export class UserResponse {
+export class UsersResponse {
   @ApiProperty()
   readonly status: string;
 
@@ -12,11 +13,20 @@ export class UserResponse {
   readonly message: string;
 
   @ApiProperty()
-  readonly data?: User;
+  readonly pagination: PaginationOutput;
 
-  constructor(status: string, message: string, data?: User) {
+  @ApiProperty()
+  readonly data?: User[];
+
+  constructor(
+    status: string,
+    message: string,
+    pagination: PaginationOutput,
+    data?: User[],
+  ) {
     this.status = status;
     this.message = message;
+    this.pagination = pagination;
     this.data = data;
   }
 }
