@@ -45,6 +45,7 @@ install: requirements  ## Install project dependencies
 start: ## Start application in development mode
 	@echo "▶️ Starting app in development mode (Docker)..."
 	@npm run start:dev
+	@npm run prisma:generate
 
 .PHONY: start/db
 install: requirements  ## Install project dependencies
