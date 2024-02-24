@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: ✅ Validate project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout project
+        uses: actions/checkout@v4
+
+      - name: 🧙‍♂️ Setup environment
+        uses: ./.github/actions/setup-environment
+
+      - name: 🖍️ Check types
+        run: npm run check:types
+
+      - name: 💅 Check format
+        run: npm run check:format
+
+      - name: 📑 Check lint
+        run: npm run check:lint
+
+      - name: 🔤 Check spelling
+        run: npm run check:spelling
+
+  test:
+    name: 🧑‍🔬 Test project
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - name: ⬇️ Checkout project
+        uses: actions/checkout@v4
+
+      - name: 🧙‍♂️ Setup environment
+        uses: ./.github/actions/setup-environment
+
+      - name: 🧪 Run tests
+        run: npm run test:cov | true
+
+  build:
+    name: 🧰 Build project
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: ⬇️ Checkout project
+        uses: actions/checkout@v4
+
+      - name: 🧙‍♂️ Setup environment
+        uses: ./.github/actions/setup-environment
+
+      - name: ⚒️ Build project
+        run: npm run build
