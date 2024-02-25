@@ -2,9 +2,8 @@ name: CD
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    tags:
+      - 'v*.*.*'
 
 permissions:
   contents: write
@@ -13,7 +12,6 @@ jobs:
   release:
     name: 🐙 Generate new release
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
 
     steps:
       - name: ⬇️ Checkout project
