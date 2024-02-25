@@ -9,6 +9,11 @@
     "node": ">=21.6.2",
     "npm": ">=10.2.4"
   },
+  "main": "dist/main.js",
+  "files": [
+    "CHANGELOG.md",
+    "README.md"
+  ],
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
