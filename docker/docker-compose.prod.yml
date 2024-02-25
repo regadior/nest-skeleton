@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  nest-skeleton:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      target: prod
+    image: ${IMAGE_NAME}:prod
+    container_name: ${IMAGE_NAME}
+    restart: always
+    depends_on:
+      - nest-skeleton-postgres
+    environment:
+      - DATABASE_URL=${DB_TYPE}://${DB_USER}:${DB_PASSWORD}@nest-skeleton-postgres:${DB_PORT}/${DB_NAME}?schema=public
+    ports:
+      - '3000:3000'
+    volumes:
+      - ..:/code/app/
+      - ../package.json:/code/package.json
+      - ../package-lock.json:/code/package-lock.json
+
+  nest-skeleton-postgres:
+    image: postgres:16
+    container_name: ${IMAGE_NAME_DB}
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - 5432:5432
