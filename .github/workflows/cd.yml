@@ -2,10 +2,8 @@ name: CD
 
 on:
   push:
-    branches:
-      - main
     tags:
-      - v*
+      - 'v*'
 
 permissions:
   contents: write
@@ -18,7 +16,7 @@ jobs:
 
     steps:
       - name: ⬇️ Checkout project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: 📋 Build Changelog
         run: npx extract-changelog-release > RELEASE_BODY.md
