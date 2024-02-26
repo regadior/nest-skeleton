@@ -1,9 +1,6 @@
 ## Include .env file
 include .env
 
-## Root directory
-ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-
 ## Set 'bash' as default shell
 SHELL := $(shell which bash)
 
@@ -39,16 +36,14 @@ endif
 install: requirements  ## Install project dependencies
 	@echo "🍿 Installing dependencies..."
 	@npm install
-
-.PHONY: start
-install: requirements  ## Install project dependencies
-start: ## Start application in development mode
-	@echo "▶️ Starting app in development mode (Docker)..."
-	@npm run start:dev
 	@npm run prisma:generate
 
+.PHONY: start
+start: install ## Start application in development mode
+	@echo "▶️ Starting app in development mode (Docker)..."
+	@npm run start:dev
+
 .PHONY: start/db
-install: requirements  ## Install project dependencies
 start/db: ## Start db
 	@echo "▶️ Starting database (Docker)..."
 	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.prod.yml --env-file .env up -d nest-skeleton-postgres
