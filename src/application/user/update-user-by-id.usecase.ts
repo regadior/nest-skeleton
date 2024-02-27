@@ -1,9 +1,10 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 
 import { UserRepository } from '../../domain/user/user.repository';
 import { UpdateUserBodyDto } from './dto/update-user-body.dto';
 import { UserResponse } from './response/user.response';
 
+@Injectable()
 export class UpdateUserByIdUseCase {
   constructor(private readonly userRepository: UserRepository) {}
 

@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { QueryFilter, StringLikeFilter } from '@domain/common/query-filters';
 
-class UserQueryFilter extends QueryFilter {
+class FindUserQueryFilter extends QueryFilter {
+  id?: StringLikeFilter;
+
   name?: StringLikeFilter;
 
   lastName?: StringLikeFilter;
@@ -10,8 +12,9 @@ class UserQueryFilter extends QueryFilter {
 
   email?: StringLikeFilter;
 
-  constructor({ name, lastName, username, email }: UserQueryFilterInput) {
+  constructor({ id, name, lastName, username, email }: UserQueryFilterInput) {
     super();
+    if (id) this.id = this.mapStringLikeFilter(id);
     if (name) this.name = this.mapStringLikeFilter(name);
     if (lastName) this.lastName = this.mapStringLikeFilter(lastName);
     if (username) this.username = this.mapStringLikeFilter(username);
@@ -20,10 +23,11 @@ class UserQueryFilter extends QueryFilter {
 }
 
 interface UserQueryFilterInput {
+  id?: string;
   name?: string;
   lastName?: string;
   username?: string;
   email?: string;
 }
 
-export { UserQueryFilter, UserQueryFilterInput };
+export { FindUserQueryFilter, UserQueryFilterInput };

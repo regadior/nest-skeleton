@@ -16,9 +16,12 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserUseCase } from '@application/user/create-user.usecase';
 import { DeleteUserByIdUseCase } from '@application/user/delete-user-by-id.usecase';
 import { CreateUserBodyDto } from '@application/user/dto/create-user-body.dto';
+import { LoginUserBodyDto } from '@application/user/dto/login-user-body.dto';
 import { UpdateUserBodyDto } from '@application/user/dto/update-user-body.dto';
 import { FindAllUsersUseCase } from '@application/user/find-all-users.usecase';
-import { GetUserByIdUseCase } from '@application/user/get-user-by-id.usecase';
+import { GetUserUseCase } from '@application/user/get-user.usecase';
+import { LoginUserUseCase } from '@application/user/login-user.usecase';
+import { LoginUserResponse } from '@application/user/response/login-user.response';
 import { UserResponse } from '@application/user/response/user.response';
 import { UpdateUserByIdUseCase } from '@application/user/update-user-by-id.usecase';
 
@@ -31,8 +34,9 @@ export class UserController {
     private readonly createUserUseCase: CreateUserUseCase,
     private readonly deleteUserByIdUseCase: DeleteUserByIdUseCase,
     private readonly updateUserByIdUseCase: UpdateUserByIdUseCase,
-    private readonly getUserByIdUseCase: GetUserByIdUseCase,
+    private readonly getUserUseCase: GetUserUseCase,
     private readonly findAllUsersUseCase: FindAllUsersUseCase,
+    private readonly loginUserUseCase: LoginUserUseCase,
   ) {}
 
   @Post()
@@ -45,6 +49,18 @@ export class UserController {
   @UsePipes(new ValidationPipe({ transform: true }))
   createUser(@Body() data: CreateUserBodyDto) {
     return this.createUserUseCase.execute(data);
+  }
+
+  @Post('/login')
+  @ApiOperation({ summary: 'Login user' })
+  @ApiResponse({
+    status: 200,
+    description: 'User logged successfully',
+    type: LoginUserResponse,
+  })
+  @UsePipes(new ValidationPipe({ transform: true }))
+  loginUser(@Body() data: LoginUserBodyDto) {
+    return this.loginUserUseCase.execute(data);
   }
 
   @Get('?')
@@ -68,7 +84,7 @@ export class UserController {
   })
   @UsePipes(new ValidationPipe({ transform: true }))
   getUserById(@Param('userId', new ParseUUIDPipe()) userId: string) {
-    return this.getUserByIdUseCase.execute(userId);
+    return this.getUserUseCase.execute(userId);
   }
 
   @Patch('/:userId')
