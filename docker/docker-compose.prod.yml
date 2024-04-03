@@ -14,10 +14,6 @@ services:
       - DATABASE_URL=${DB_TYPE}://${DB_USER}:${DB_PASSWORD}@nest-skeleton-postgres:${DB_PORT}/${DB_NAME}?schema=public
     ports:
       - '3000:3000'
-    volumes:
-      - ..:/code/app/
-      - ../package.json:/code/package.json
-      - ../package-lock.json:/code/package-lock.json
 
   nest-skeleton-postgres:
     image: postgres:16
