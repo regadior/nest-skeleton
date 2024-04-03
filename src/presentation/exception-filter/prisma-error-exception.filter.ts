@@ -20,13 +20,16 @@ export class PrismaErrorExceptionFilter implements ExceptionFilter {
     switch (exception.code) {
       case 'P2002': {
         status = HttpStatus.CONFLICT;
-        const fields = this.getFieldsWithValues(exception, request);
-        message = `Following fields already exist in the database with the following values: '${fields}'`;
+        const fields = this.getFieldsWithValues(
+          exception.meta?.target,
+          request,
+        );
+        message = `Following fields already exist in the database,${fields}`;
         break;
       }
       default: {
         status = HttpStatus.INTERNAL_SERVER_ERROR;
-        message = 'Error processing the request';
+        message = 'Error in database while processing the request';
         break;
       }
     }
@@ -34,21 +37,14 @@ export class PrismaErrorExceptionFilter implements ExceptionFilter {
     response.status(status).json(responseBody);
   }
 
-  private getFieldsWithValues(
-    exception: PrismaClientKnownRequestError,
-    request: any,
-  ): string {
-    const fields =
-      exception.meta && Array.isArray(exception.meta.target)
-        ? exception.meta.target
-        : [];
+  private getFieldsWithValues(targets: any, request: any): string {
     const values: any = request.body;
     const fieldsWithValues: string[] = [];
-    fields.forEach((field) => {
-      if (field in values) {
-        fieldsWithValues.push(`${field}: ${values[field]}`);
+    targets.forEach((target: string) => {
+      if (target in values) {
+        fieldsWithValues.push(`'${target}: ${values[target]}'`);
       }
     });
-    return fieldsWithValues.join(', ');
+    return fieldsWithValues.join(' and ');
   }
 }
