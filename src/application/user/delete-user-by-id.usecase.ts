@@ -8,6 +8,10 @@ export class DeleteUserByIdUseCase {
 
   public async execute(userId: string): Promise<UserResponse> {
     const user = await this.userRepository.delete(userId);
-    return new UserResponse(HttpStatus.OK.toString(), 'User deleted', user);
+    return new UserResponse(
+      HttpStatus.OK.toString(),
+      `Successfully deleted user with id ${user.id}`,
+      user,
+    );
   }
 }
