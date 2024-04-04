@@ -1,6 +1,7 @@
 import { HttpStatus, NotFoundException } from '@nestjs/common';
 
-import { UserRepository } from '../../domain/user/user.repository';
+import { UserRepository } from '@domain/user/user.repository';
+
 import { UserResponse } from './response/user.response';
 
 export class GetUserByIdUseCase {
@@ -10,10 +11,6 @@ export class GetUserByIdUseCase {
     const user = await this.userRepository.getById(userId);
     if (!user)
       throw new NotFoundException(`User with id ${userId} userId not found`);
-    return new UserResponse(
-      HttpStatus.OK.toString(),
-      'User successfully obtained',
-      user,
-    );
+    return new UserResponse(HttpStatus.OK, 'User successfully obtained', user);
   }
 }

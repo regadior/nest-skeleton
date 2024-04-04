@@ -33,13 +33,14 @@ export class PrismaErrorExceptionFilter implements ExceptionFilter {
         break;
       }
     }
-    const responseBody = new BaseResponse(status.toString(), message);
+    const responseBody = new BaseResponse(status, message);
     response.status(status).json(responseBody);
   }
 
   private getFieldsWithValues(targets: any, request: any): string {
     const values: any = request.body;
     const fieldsWithValues: string[] = [];
+    console.log(targets);
     targets.forEach((target: string) => {
       if (target in values) {
         fieldsWithValues.push(`'${target}: ${values[target]}'`);

@@ -6,7 +6,7 @@ import { PaginationOutput } from '@domain/common/pagination-output';
 import { User } from '@domain/user/user';
 
 @Injectable()
-export class UsersResponse extends BaseResponse {
+export class UsersResponse extends BaseResponse<User[]> {
   @ApiProperty()
   readonly pagination: PaginationOutput;
 
@@ -14,13 +14,12 @@ export class UsersResponse extends BaseResponse {
   readonly data?: User[];
 
   constructor(
-    status: string,
+    status: number,
     message: string,
     pagination: PaginationOutput,
     data?: User[],
   ) {
-    super(status, message);
+    super(status, message, data);
     this.pagination = pagination;
-    this.data = data;
   }
 }

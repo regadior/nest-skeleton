@@ -10,7 +10,7 @@ export class CreateUserUseCase {
   public async execute(data: any): Promise<UserResponse> {
     const createdUser = await this.userRepository.create(data);
     return new UserResponse(
-      HttpStatus.CREATED.toString(),
+      HttpStatus.CREATED,
       `Successfully created user with id ${createdUser.id}`,
       createdUser,
     );

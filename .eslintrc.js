@@ -80,7 +80,6 @@ module.exports = {
         'plugin:promise/recommended',
         'plugin:optimize-regex/recommended',
         'plugin:prettier/recommended',
-        // 'plugin:security/recommended',
       ],
       plugins: [
         '@typescript-eslint',
@@ -112,6 +111,7 @@ module.exports = {
         // For faster development
         'no-process-exit': 'off',
         'no-useless-constructor': 'off',
+        '@typescript-eslint/no-useless-constructor': 'off',
         'class-methods-use-this': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-function-return-type': 'off',
@@ -130,6 +130,22 @@ module.exports = {
         'sonarjs/no-duplicate-string': 'off',
         'unicorn/prefer-top-level-await': 'off',
         // Import and order style
+        'import/no-named-as-default': 'off',
+        'import/no-named-as-default-member': 'off',
+        'simple-import-sort/exports': 'error',
+        'import/prefer-default-export': 'off',
+        'import/no-default-export': 'off',
+        'import/first': 'error',
+        'import/newline-after-import': 'error',
+        'import/no-duplicates': 'error',
+        'import/no-deprecated': 'error',
+        'import/group-exports': 'off',
+        'import/exports-last': 'error',
+        'no-restricted-imports': 'off',
+        '@typescript-eslint/member-ordering': 'error',
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-unused-vars': 'off',
+        'unused-imports/no-unused-imports': 'error',
         'simple-import-sort/imports': [
           'error',
           {
@@ -148,18 +164,6 @@ module.exports = {
             ],
           },
         ],
-        'import/no-named-as-default': 'off',
-        'import/no-named-as-default-member': 'off',
-        'simple-import-sort/exports': 'error',
-        'import/prefer-default-export': 'off',
-        'import/no-default-export': 'off',
-        'import/first': 'error',
-        'import/newline-after-import': 'error',
-        'import/no-duplicates': 'error',
-        'import/no-deprecated': 'error',
-        'import/group-exports': 'off',
-        'import/exports-last': 'error',
-        'no-restricted-imports': 'off',
         'padding-line-between-statements': [
           'error',
           { blankLine: 'always', prev: '*', next: 'export' },
@@ -172,10 +176,6 @@ module.exports = {
             allowTemplateLiterals: true,
           },
         ],
-        '@typescript-eslint/member-ordering': 'error',
-        '@typescript-eslint/no-unused-vars': 'off',
-        'no-unused-vars': 'off',
-        'unused-imports/no-unused-imports': 'error',
         'unused-imports/no-unused-vars': [
           'error',
           {
