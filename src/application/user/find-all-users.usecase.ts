@@ -1,9 +1,9 @@
 import { HttpStatus } from '@nestjs/common';
 
 import { PaginationInput } from '@domain/common/pagination-input';
+import { UserRepository } from '@domain/user/user.repository';
 import { UserQueryFilter } from '@domain/user/user-query-filter';
 
-import { UserRepository } from '../../domain/user/user.repository';
 import { GetAllUsersQuery } from './query/get-all-users.query';
 import { UsersResponse } from './response/users.response';
 
@@ -20,7 +20,7 @@ export class FindAllUsersUseCase {
     );
 
     return new UsersResponse(
-      HttpStatus.OK.toString(),
+      HttpStatus.OK,
       'Users returned by query',
       pagination,
       result,

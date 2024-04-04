@@ -5,12 +5,11 @@ import { BaseResponse } from '@application/common/base.response';
 import { User } from '@domain/user/user';
 
 @Injectable()
-export class UserResponse extends BaseResponse {
+export class UserResponse extends BaseResponse<User> {
   @ApiProperty()
-  readonly data?: User;
+  readonly data: User;
 
-  constructor(status: string, message: string, data?: User) {
-    super(status, message);
-    this.data = data;
+  constructor(status: number, message: string, data: User) {
+    super(status, message, data);
   }
 }
