@@ -1,4 +1,4 @@
-import { PaginationInput } from '../../domain/common/pagination-input';
+import { PaginationInput } from '@domain/common/pagination-input';
 
 class PrismaPagination {
   skip: number;
