@@ -14,12 +14,12 @@ export class UsersResponse extends BaseResponse<User[]> {
   readonly data?: User[];
 
   constructor(
-    status: number,
+    statusCode: number,
     message: string,
     pagination: PaginationOutput,
     data?: User[],
   ) {
-    super(status, message, data);
+    super(statusCode, message, data);
     this.pagination = pagination;
   }
 }
