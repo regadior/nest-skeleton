@@ -40,7 +40,7 @@ ENV PORT $PORT
 EXPOSE $PORT
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/dist /app
-COPY --from=builder /app/logs /app/logs
+COPY --from=builder /app/logs /logs
 
 COPY --link <<EOF process.json
 { "apps": [{ "exec_mode": "cluster", "instances": "max", "name": "nest-skeleton", "script": "./main.js" }] }

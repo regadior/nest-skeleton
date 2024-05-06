@@ -19,10 +19,9 @@ import { CreateUserBodyDto } from '@application/user/dto/create-user-body.dto';
 import { UpdateUserBodyDto } from '@application/user/dto/update-user-body.dto';
 import { FindAllUsersUseCase } from '@application/user/find-all-users.usecase';
 import { GetUserByIdUseCase } from '@application/user/get-user-by-id.usecase';
+import { GetAllUsersQuery } from '@application/user/query/get-all-users.query';
 import { UserResponse } from '@application/user/response/user.response';
 import { UpdateUserByIdUseCase } from '@application/user/update-user-by-id.usecase';
-
-import { GetAllUsersQuery } from '../../../application/user/query/get-all-users.query';
 
 @Controller('/users')
 @ApiTags('Users')

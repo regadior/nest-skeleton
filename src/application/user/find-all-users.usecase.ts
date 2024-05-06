@@ -18,7 +18,6 @@ export class FindAllUsersUseCase {
       paginationInput,
       candidateQueryFilter,
     );
-
     return new UsersResponse(
       HttpStatus.OK,
       'Users returned by query',

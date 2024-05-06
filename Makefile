@@ -44,12 +44,12 @@ start: install ## Start application in development mode
 	@npm run start:dev
 
 .PHONY: start/db
-start/db: ## Start db
+start/db: install ## Start db
 	@echo "▶️ Starting database (Docker)..."
 	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.prod.yml --env-file .env up -d nest-skeleton-postgres
 
 .PHONY: start/prod
-start/prod: ## Start all application in production mode
+start/prod: install ## Start all application in production mode
 	@echo "▶️ Starting app in production mode (Docker)..."
 	@$(DOCKER_COMPOSE) -f ./docker/docker-compose.prod.yml --env-file .env up --build
 

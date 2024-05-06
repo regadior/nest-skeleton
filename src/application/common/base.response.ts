@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class BaseResponse<T> {
   @ApiProperty()
-  status: number;
+  statusCode: number;
 
   @ApiProperty()
   message: string;
@@ -10,8 +10,8 @@ export class BaseResponse<T> {
   @ApiProperty()
   data?: T;
 
-  constructor(status: number, message: string, data?: T) {
-    this.status = status;
+  constructor(statusCode: number, message: string, data?: T) {
+    this.statusCode = statusCode;
     this.message = message;
     this.data = data;
   }

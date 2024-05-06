@@ -9,7 +9,7 @@ export class UserResponse extends BaseResponse<User> {
   @ApiProperty()
   readonly data: User;
 
-  constructor(status: number, message: string, data: User) {
-    super(status, message, data);
+  constructor(statusCode: number, message: string, data: User) {
+    super(statusCode, message, data);
   }
 }

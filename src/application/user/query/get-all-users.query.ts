@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
-import { PaginationQuery } from '@presentation/controllers/common/pagination.query';
+import { PaginationQuery } from '@application/common/pagination.query';
 
 class GetAllUsersQuery extends PaginationQuery {
   @ApiProperty({ required: false })

@@ -6,7 +6,10 @@ import {
 } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-import { BaseResponse } from '@application/common/base.response';
+interface Field {
+  field: string;
+  value: string;
+}
 
 @Catch(PrismaClientKnownRequestError)
 export class PrismaErrorExceptionFilter implements ExceptionFilter {
@@ -14,38 +17,33 @@ export class PrismaErrorExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
     const request = ctx.getRequest();
-    let status: number;
+    let statusCode: number;
     let message: string;
+    let fields: Field[] = [];
     // eslint-disable-next-line sonarjs/no-small-switch
     switch (exception.code) {
       case 'P2002': {
-        status = HttpStatus.CONFLICT;
-        const fields = this.getFieldsWithValues(
-          exception.meta?.target,
-          request,
-        );
-        message = `Following fields already exist in the database,${fields}`;
+        statusCode = HttpStatus.CONFLICT;
+        fields = this.getFieldsWithValues(exception.meta?.target, request.body);
+        message = `Duplicated key value violates unique constraint.`;
         break;
       }
       default: {
-        status = HttpStatus.INTERNAL_SERVER_ERROR;
-        message = 'Error in database while processing the request';
+        statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+        message = exception.message;
         break;
       }
     }
-    const responseBody = new BaseResponse(status, message);
-    response.status(status).json(responseBody);
+    response.status(statusCode).json({ statusCode, message, fields });
   }
 
-  private getFieldsWithValues(targets: any, request: any): string {
-    const values: any = request.body;
-    const fieldsWithValues: string[] = [];
-    console.log(targets);
+  private getFieldsWithValues(targets: any, requestBody: any): Field[] {
+    const fieldsWithValues: any[] = [];
     targets.forEach((target: string) => {
-      if (target in values) {
-        fieldsWithValues.push(`'${target}: ${values[target]}'`);
+      if (target in requestBody) {
+        fieldsWithValues.push({ field: target, value: requestBody[target] });
       }
     });
-    return fieldsWithValues.join(' and ');
+    return fieldsWithValues;
   }
 }
