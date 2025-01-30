@@ -1,7 +1,5 @@
-.commitlintrc*
 .dockerignore
 .DS_Store
-.editorconfig
 .env*
 .eslintcache
 .eslintrc*

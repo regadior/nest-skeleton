@@ -1,7 +1,7 @@
 import { PaginationInput } from './pagination-input';
 import { PaginationOutput } from './pagination-output';
 
-class FindQueryResult<T> {
+export class FindQueryResult<T> {
   result: T[];
 
   pagination: PaginationOutput;
@@ -16,5 +16,3 @@ class FindQueryResult<T> {
     );
   }
 }
-
-export { FindQueryResult };

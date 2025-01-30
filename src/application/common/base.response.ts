@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BaseResponse<T> {
+class BaseResponse<T> {
   @ApiProperty()
-  statusCode: number;
+  readonly statusCode: number;
 
   @ApiProperty()
-  message: string;
+  readonly message: string;
 
   @ApiProperty()
-  data?: T;
+  readonly data?: T;
 
   constructor(statusCode: number, message: string, data?: T) {
     this.statusCode = statusCode;
@@ -16,3 +16,5 @@ export class BaseResponse<T> {
     this.data = data;
   }
 }
+
+export { BaseResponse };

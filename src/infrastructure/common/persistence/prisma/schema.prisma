@@ -1,6 +1,6 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x", "linux-arm64-openssl-3.0.x", "linux-musl-openssl-3.0.x"]
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearchPostgres"]
 }
 
 datasource db {
@@ -9,10 +9,41 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
-  name     String
-  lastName String
-  username String @unique
-  email    String @unique
-  password String
+  id         String       @id @default(uuid())
+  email      String       @unique
+  password   String 
+  roleOnUser RoleOnUser[]
+  tasks Task[]
+}
+
+model Role {
+  id         Int          @id @default(autoincrement())
+  name       String
+  roleOnUser RoleOnUser[]
+}
+
+model RoleOnUser {
+  id     String @id @default(uuid())
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roleId Int
+  @@unique([userId, roleId])
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  description String
+  status TaskStatus
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId      String
+  createdAt   DateTime
+  updatedAt   DateTime     @default(now())
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }

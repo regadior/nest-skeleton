@@ -7,7 +7,7 @@ import {
   PAGE_SIZE_DEFAULT,
 } from '@domain/common/constants';
 
-class PaginationQuery {
+export class PaginationQuery {
   @ApiProperty({ required: false })
   @Type(() => Number)
   @Transform(({ value }) => Number.parseInt(value))
@@ -20,5 +20,3 @@ class PaginationQuery {
   @IsInt()
   pageNumber?: number = PAGE_NUMBER_DEFAULT;
 }
-
-export { PaginationQuery };

@@ -1,0 +1,26 @@
+services:
+  nestjs-skeleton:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      target: runner
+    image: ${IMAGE_NAME}:prod
+    container_name: ${IMAGE_NAME}
+    restart: always
+    depends_on:
+      - nestjs-skeleton-postgres
+    environment:
+      - DATABASE_URL=${DB_TYPE}://${DB_USER}:${DB_PASSWORD}@nestjs-skeleton-postgres:${DB_PORT}/${DB_NAME}?schema=public
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+
+  nestjs-skeleton-postgres:
+    image: postgres:16
+    container_name: ${IMAGE_NAME_DB}
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:${DB_PORT}

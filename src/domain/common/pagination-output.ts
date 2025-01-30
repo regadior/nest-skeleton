@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-class PaginationOutput {
+export class PaginationOutput {
   @ApiProperty()
   pageNumber: number;
 
@@ -25,5 +25,3 @@ class PaginationOutput {
     this.elementsFound = elementsFound;
   }
 }
-
-export { PaginationOutput };

@@ -1,9 +1,8 @@
-module.exports = {
+export default {
   '*.{js,ts}': [
-    'prettier --check --write --ignore-unknown',
-    'eslint --cache --color --fix',
+    'prettier --check --ignore-unknown .',
+    'eslint --cache --color',
+    'cspell .',
     () => 'tsc --pretty --noEmit',
   ],
-  '!*.{js,ts}': ['prettier --check --write --ignore-unknown'],
-  '{README.md,TODO.md,.github/*.md,src/**/*.ts}': ['cspell'],
 };

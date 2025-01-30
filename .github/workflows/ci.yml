@@ -51,17 +51,43 @@ jobs:
       - name: 🧪 Run tests
         run: npm run test:cov | true
 
-  build:
-    name: 🧰 Build project
-    runs-on: ubuntu-latest
-    needs: test
+  # build:
+  #   name: 🧰 Push image to DockerHub
+  #   runs-on: ubuntu-latest
+  #   needs: test
 
-    steps:
-      - name: ⬇️ Checkout project
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: ⬇️ Checkout project
+  #       uses: actions/checkout@v4
 
-      - name: 🧙‍♂️ Setup environment
-        uses: ./.github/actions/setup-environment
+  # - name: 🔑 Log in to Docker Hub
+  #   uses: docker/login-action@v3
+  #   with:
+  #     username: ${{ secrets.DOCKER_USERNAME }}
+  #     password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: ⚒️ Build project
-        run: npm run build
+  # - name: 🐳 Extract metadata for Docker
+  #   id: meta
+  #   uses: docker/metadata-action@v4
+  #   with:
+  #     images: ${{ secrets.DOCKER_USERNAME }}/repository-name
+
+  # - name: 🐳 Build and Push Docker image
+  #   uses: docker/build-push-action@v5
+  #   with:
+  #     context: .
+  #     file: docker/Dockerfile
+  #     push: true
+  #     tags: |
+  #       ${{ secrets.DOCKER_USERNAME }}/repository-name:develop-${{ github.sha }}
+  #       ${{ secrets.DOCKER_USERNAME }}/repository-name:develop
+  #     labels: ${{ steps.meta.outputs.labels }}
+
+  # deploy:
+  #   name: 🚀 Deploy
+  #   runs-on: ubuntu-latest
+  #   needs: build
+
+  #   steps:
+  #     - name: ⬇️ Checkout project
+  #       uses: actions/checkout@v4
