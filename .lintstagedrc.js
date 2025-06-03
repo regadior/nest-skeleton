@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   '*.{js,ts}': [
     'prettier --check --ignore-unknown .',
     'eslint --cache --color',

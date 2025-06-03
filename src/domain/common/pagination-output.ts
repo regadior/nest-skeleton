@@ -11,17 +11,17 @@ export class PaginationOutput {
   count: number;
 
   @ApiProperty()
-  elementsFound: number;
+  total: number;
 
   constructor(
     pageNumber: number,
     pageSize: number,
     count: number,
-    elementsFound: number,
+    total: number,
   ) {
     this.pageNumber = pageNumber;
     this.pageSize = pageSize;
     this.count = count;
-    this.elementsFound = elementsFound;
+    this.total = total;
   }
 }

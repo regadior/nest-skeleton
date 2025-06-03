@@ -16,11 +16,7 @@ export class PrismaUserRepository implements UserRepository {
           email,
         },
         include: {
-          roleOnUser: {
-            include: {
-              role: true,
-            },
-          },
+          roleOnUser: true,
         },
       })
       .then((user) => (user ? PrismaUserMapper.toDomainModel(user) : null));

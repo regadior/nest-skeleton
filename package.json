@@ -9,7 +9,6 @@
     "node": ">=21.6.2",
     "npm": ">=10.8.3"
   },
-  "type": "module",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -43,7 +42,7 @@
     "@nestjs/platform-fastify": "^11.0.6",
     "@nestjs/schedule": "^5.0.1",
     "@nestjs/swagger": "^11.0.3",
-    "@prisma/client": "^6.3.0",
+    "@prisma/client": "^6.9.0",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
@@ -55,7 +54,8 @@
     "pino-pretty": "^10.3.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "swagger": "^0.7.5"
+    "swagger": "^0.7.5",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^19.6.0",
@@ -80,6 +80,7 @@
     "jest-extended": "^4.0.2",
     "lint-staged": "^15.4.3",
     "prettier": "^3.4.2",
+    "prisma": "^6.9.0",
     "supertest": "^6.3.4",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"

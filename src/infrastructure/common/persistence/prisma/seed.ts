@@ -24,7 +24,7 @@ async function generateRoles() {
 
 async function generateUsers() {
   const email = 'prueba@prueba.com';
-  const plainPassword = 'password123';
+  const plainPassword = '1234';
   const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
   const existingUser = await prisma.user.findUnique({

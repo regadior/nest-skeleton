@@ -6,13 +6,13 @@ export class FindQueryResult<T> {
 
   pagination: PaginationOutput;
 
-  constructor(result: T[], elementsFound: number, pagination: PaginationInput) {
+  constructor(result: T[], total: number, pagination: PaginationInput) {
     this.result = result;
     this.pagination = new PaginationOutput(
       pagination.pageNumber,
       pagination.pageSize,
       result.length,
-      elementsFound,
+      total,
     );
   }
 }

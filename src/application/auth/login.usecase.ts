@@ -31,9 +31,8 @@ export class LoginUseCase {
       id: user.id,
       email: user.email,
     });
-
     return new LoginResponse(HttpStatus.OK, 'Login successfully', {
-      userDto,
+      ...userDto,
       accessToken,
     });
   }

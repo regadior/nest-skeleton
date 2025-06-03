@@ -1,17 +1,20 @@
-import typescriptEslintPlugin from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
+const typescriptEslintPlugin = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
 
-export default {
-  files: ['**/*.ts'],
-  languageOptions: {
-    parser: typescriptParser,
-    parserOptions: {
-      project: './tsconfig.json',
-      sourceType: 'module',
+/** @type {import('eslint').Linter.FlatConfig[]} */
+module.exports = [
+  {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        project: './tsconfig.json',
+        sourceType: 'module',
+      },
     },
+    plugins: {
+      '@typescript-eslint': typescriptEslintPlugin,
+    },
+    rules: {},
   },
-  plugins: {
-    typescriptEslintPlugin,
-  },
-  rules: {},
-};
+];

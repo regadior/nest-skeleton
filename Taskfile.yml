@@ -48,9 +48,6 @@ tasks:
 
   start:
     desc: "Start app in development mode"
-    deps:
-      - task: install
-      - task: db/push
     cmds:
       - echo "▶️ Starting app in development mode..."
       - npm run start:dev
