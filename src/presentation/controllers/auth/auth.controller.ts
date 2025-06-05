@@ -5,11 +5,11 @@ import {
   Body,
   Controller,
   Post,
-  SetMetadata,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Public } from '@presentation/authz/decorators/public.decorator';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -22,7 +22,7 @@ export class AuthController {
     status: 200,
     description: 'Login with user successfully',
   })
-  @SetMetadata('isPublic', true)
+  @Public()
   login(@Body() data: LoginDto): Promise<LoginResponse> {
     return this.loginUseCase.execute(data);
   }

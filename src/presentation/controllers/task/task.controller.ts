@@ -17,16 +17,14 @@ import {
   Post,
   Query,
   Req,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@presentation/guards/auth.guard';
+import { Public } from '@presentation/authz/decorators/public.decorator';
 
 @Controller('tasks')
 @ApiTags('Task')
-@UseGuards(AuthGuard)
 @UsePipes(new ValidationPipe({ transform: true }))
 export class TaskController {
   constructor(
