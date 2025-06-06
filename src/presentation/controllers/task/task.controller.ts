@@ -6,6 +6,7 @@ import { FindAllTasksUseCase } from '@application/task/find-all-tasks.usecase';
 import { GetTaskUseCase } from '@application/task/get-task.usecase';
 import { GetAllTasksQuery } from '@application/task/query/get-all-users.query';
 import { UpdateTaskUseCase } from '@application/task/update-task.usecase';
+import { RoleEnum } from '@domain/user/role/role.enum';
 import {
   Body,
   Controller,
@@ -21,7 +22,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Public } from '@presentation/authz/decorators/public.decorator';
+import { IsOwner } from '@presentation/authz/decorators/is-owner.decorator';
+import { Role } from '@presentation/authz/decorators/role.decorator';
 
 @Controller('tasks')
 @ApiTags('Task')
@@ -40,6 +42,7 @@ export class TaskController {
     status: 201,
     description: 'Successfully added new Task',
   })
+  @Role([RoleEnum.ADMIN, RoleEnum.USER])
   createTask(@Body() data: CreateTaskDto, @Req() req) {
     const user = req.user;
     return this.createTaskUseCase.execute({ data: data, userId: user.id });
@@ -50,6 +53,7 @@ export class TaskController {
     status: 200,
     description: 'Successfully',
   })
+  @Role([RoleEnum.ADMIN, RoleEnum.USER])
   updateTask(
     @Param('taskId', new ParseIntPipe())
     taskId: number,
@@ -62,6 +66,12 @@ export class TaskController {
   @ApiResponse({
     status: 200,
     description: 'Successfully',
+  })
+  @Role([RoleEnum.ADMIN, RoleEnum.USER])
+  @IsOwner({
+    required: true,
+    excludedRoles: [RoleEnum.ADMIN],
+    entityId: 'taskId',
   })
   getTask(
     @Param('taskId', new ParseIntPipe())
@@ -77,6 +87,7 @@ export class TaskController {
     description: 'Tasks list',
     // type: FindAllTasksUseCase,
   })
+  @Role([RoleEnum.ADMIN, RoleEnum.USER])
   findAllTasks(@Query() query: GetAllTasksQuery) {
     return this.findAllTasksUseCase.execute(query);
   }
@@ -87,6 +98,7 @@ export class TaskController {
     status: 204,
     description: 'Successfully',
   })
+  @Role([RoleEnum.ADMIN, RoleEnum.USER])
   deleteTask(
     @Param('taskId', new ParseIntPipe())
     taskId: number,

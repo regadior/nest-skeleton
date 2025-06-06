@@ -14,7 +14,6 @@ import { APP_GUARD, Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@presentation/guards/auth.guard';
 import { JwtConfigModule } from './jwt-config.module';
-// import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [PrismaModule, JwtConfigModule],

@@ -5,6 +5,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from './modules/auth.module';
 import { TaskModule } from './modules/task.module';
 import { UserModule } from './modules/user.module';
+import { IsOwnerModule } from '@presentation/modules/is-owner.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './modules/user.module';
     UserModule,
     AuthModule,
     TaskModule,
+    IsOwnerModule,
   ],
   controllers: [],
   providers: [
