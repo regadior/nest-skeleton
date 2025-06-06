@@ -15,7 +15,7 @@ services:
       - ${APP_PORT}:${APP_PORT}
 
   nestjs-skeleton-postgres:
-    image: postgres:16
+    image: postgres:17
     container_name: ${IMAGE_NAME_DB}
     restart: always
     environment:
